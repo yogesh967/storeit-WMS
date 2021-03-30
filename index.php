@@ -6,9 +6,9 @@
     <title>Login | StoreIt Warehouse Management System</title>
 
     <!--CSS Links-->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css.map">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css.map" />
+    <link rel="stylesheet" href="css/style.css" />
 
 
     <!--bootstrap  icon-->
