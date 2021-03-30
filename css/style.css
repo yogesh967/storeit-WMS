@@ -1,0 +1,61 @@
+body {
+  margin: 0 auto;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px !important;
+  background-image: url("../images/login-bg.jpg");
+}
+
+.paddingzero {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ################ Login ################## */
+
+.login-signup {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 1);
+
+}
+
+.form-control {
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 14px !important;
+}
+
+.input-group-text {
+  font-size: 14px !important;
+}
+
+.loginbtn {
+  padding: 8px 15px !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 14px !important;
+  color: #fff !important;
+  background-color: #e76f51 !important;
+}
+
+
+
+/*#################### Signup ######################## */
+
+#signup .form-row {
+  text-align: left !important;
+}
+
+
+.login-side-img {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.login-side-img img {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  display: block;
+}
