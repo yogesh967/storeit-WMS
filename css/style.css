@@ -13,16 +13,28 @@ body {
 
 /* ################ Login ################## */
 
+.login-box {
+  text-align: center;
+}
+
 .login-signup {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 40px 40px;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-  background: rgba(255, 255, 255, 1);
+  background-color: #fff;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
 }
 
 .form-group {
   margin: auto !important;
+  padding: 10px !important;
 }
 
 .form-control {
@@ -34,31 +46,46 @@ body {
   font-size: 14px !important;
 }
 
+/***********************
+  CUSTON BTN VALUES
+************************/
+
 .loginbtn {
-  padding: 8px 15px !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 14px !important;
-  color: #fff !important;
-  background-color: #e76f51 !important;
+  border-radius: 5;
 }
 
+.btn {
+  padding: 10px 20px;
+  border: 0 none;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+  outline: 0 none;
+}
+
+.btn-primary {
+  background: #264653;
+  color: #ffffff;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+  background: rgba(38, 70, 83, 0.9) !important;
+}
+
+.btn-primary:focus {
+  background-color: #264653 !important;
+}
+
+.btn-primary:active, .btn-primary.active {
+  background-color: #264653 !important;
+  box-shadow: none;
+}
 
 
 /*#################### Signup ######################## */
 
-#signup .form-row {
-  text-align: left !important;
-}
-
-
-.login-side-img {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.login-side-img img {
-  padding: 0;
-  margin: 0;
-  width: auto;
-  display: block;
+.star {
+  color: red;
 }
