@@ -27,7 +27,6 @@ body {
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
   min-height: 100vh; /* These two lines are counted as one :-)       */
-
   display: flex;
   align-items: center;
 }
@@ -46,41 +45,26 @@ body {
   font-size: 14px !important;
 }
 
-/***********************
-  CUSTON BTN VALUES
-************************/
-
-.loginbtn {
-  border-radius: 5;
+.errorWrap {
+  width: 100%;
+  padding: 15px 15px;
+  margin: 0 0 20px 0;
+  text-align: center;
+  background: #fff;
+  border-left: 4px solid #dd3d36;
+  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 
-.btn {
-  padding: 10px 20px;
-  border: 0 none;
-  font-size: 14px;
-  letter-spacing: 1px;
-}
-
-.btn:focus, .btn:active:focus, .btn.active:focus {
-  outline: 0 none;
-}
-
-.btn-primary {
-  background: #264653;
-  color: #ffffff;
-}
-
-.btn-primary:hover, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-  background: rgba(38, 70, 83, 0.9) !important;
-}
-
-.btn-primary:focus {
-  background-color: #264653 !important;
-}
-
-.btn-primary:active, .btn-primary.active {
-  background-color: #264653 !important;
-  box-shadow: none;
+.succWrap {
+  width: 100%;
+  padding: 15px 15px;
+  margin: 0 0 20px 0;
+  text-align: center;
+  background: #fff;
+  border-left: 4px solid #5cb85c;
+  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 }
 
 

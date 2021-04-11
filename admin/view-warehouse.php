@@ -1,0 +1,218 @@
+<?php
+include("../include/connection.php");
+session_start();
+error_reporting(0);
+
+if(strlen($_SESSION['alogin'])==0)
+	{
+header('location:index.php');
+}
+else{
+	if (isset($_POST['update'])) {
+	$id = $_POST['id'];
+	$name = $_POST['name'];
+	$password = $_POST['Inputpass'];
+	$email = $_POST['Inputemail'];
+	$contact = $_POST['Inputcontact'];
+	$address = $_POST['inputaddress'];
+	$state = $_POST['Inputstate'];
+	$city = $_POST['Inputcity'];
+	$zip = $_POST['Inputzip'];
+
+	$update_query = mysqli_query($conn, "UPDATE warehouse SET name='$name', password='$password', email='$email', contact='$contact', address='$address', state='$state', city='$city', zip='$zip' WHERE id=$id");
+	if ($update_query) {
+		$_SESSION['success'] = "details updated!";
+		header('location: view-warehouse.php');
+	}
+
+	else {
+		$_SESSION['error'] = "Failed to updated!";
+		header('location: view-warehouse.php');
+	}
+
+}
+
+
+	$sql = "SELECT * FROM warehouse";
+	$result = $conn->query($sql);
+	$arr_users = [];
+	$count = 1;
+	if ($result->num_rows > 0) {
+    $arr_users = $result->fetch_all(MYSQLI_ASSOC);
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard | StoreIt Warehouse Management System</title>
+
+		<!--bootstrap core-->
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../css/bootstrap.min.css.map" />
+		<!-- custom style -->
+		<link rel="stylesheet" href="css/adminstyle.css">
+		<!--Jquery-->
+		<script src="../js/jquery.js"></script>
+		<!-- state city -->
+		<script type="text/javascript" src="../js/cities.js"></script>
+		<!--bootstrap  icon-->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+		<!--Open sans font-->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		<!-- data table -->
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"/>
+
+</head>
+
+  <body>
+		<?php include('include/header.php');?>
+
+		<div class="d-flex" id="wrapper">
+		<?php include('include/leftbar.php');?>
+	 <!-- Page Content -->
+	 <div id="page-content-wrapper">
+
+		 <div class="container-fluid">
+			 <div class="row">
+				 <div class="col-md-12 dash-heading">
+					 <h2 class="pg-heading">Warehouses</h2>
+				 </div>
+			 </div>
+
+			 <div class="table-responsive">
+				<table id="warehouse-list" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+							<th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+								<th>Password</th>
+                <th>Contact No</th>
+                <th>Address</th>
+                <th>State</th>
+								<th>City</th>
+								<th>Zip</th>
+								<th>Action</th>
+            </tr>
+        </thead>
+				<tbody>
+					<?php if(!empty($arr_users)) { ?>
+                <?php foreach($arr_users as $user) { ?>
+					<tr>
+						<td><?php echo $count; ?></td>
+						<td><?php echo $user['name']; ?></td>
+						<td><?php echo $user['email']; ?></td>
+						<td><?php echo $user['password']; ?></td>
+						<td><?php echo $user['contact']; ?></td>
+						<td><?php echo $user['address']; ?></td>
+						<td><?php echo $user['state']; ?></td>
+						<td><?php echo $user['city']; ?></td>
+						<td><?php echo $user['zip']; ?></td>
+						<td>
+							<button name="edit_btn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal<?php echo $user['id']; ?>">
+			          Update
+			        </button>
+							<a href="view-warehouse.php?delete=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" >Delete</a>
+
+							<div class="modal fade " id="myModal<?php echo $user['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			                      <div class="modal-content">
+
+			                        <!-- Modal Header -->
+			                        <div class="modal-header">
+			                          <h5 class="modal-title">Details</h5>
+			                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			                        </div>
+
+			                        <!-- Modal body -->
+			                        <div class="modal-body" style="text-align:left;">
+																<form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="signup" onsubmit="#" method="post" enctype="multipart/form-data">
+								                  <div class="form-row">
+								                    <div class="form-group col-md-6">
+								                      <label for="Inputname">Name</label>
+																			<input type="hidden" name="id" value="<?php echo $user['id']; ?>" />
+								                      <input type="text" class="form-control" name="Inputname" id="Inputname" value="<?php echo $user['name']; ?>" />
+								                    </div>
+																		<div class="form-group col-md-6">
+								                      <label for="Inputpass">Password</label>
+								                      <input type="text" class="form-control" name="Inputpass" id="Inputpass" value="<?php echo $user['password']; ?>" />
+								                    </div>
+								                  </div>
+								                  <div class="form-row">
+																		<div class="form-group col-md-6">
+								                      <label for="Inputemail">Email</label>
+								                      <input type="text" class="form-control" name="Inputemail" id="Inputemail" value="<?php echo $user['email']; ?>" />
+								                    </div>
+																		<div class="form-group col-md-6">
+								                      <label for="Inputcontact">Contact No.</label>
+								                      <input type="text" class="form-control" name="Inputcontact" id="Inputcontact" value="<?php echo $user['contact']; ?>" />
+								                    </div>
+								                  </div>
+								                  <div class="form-row">
+																		<div class="form-group col-md-6">
+								                      <label for="Inputaddress">Address</label>
+								                      <input type="text" class="form-control" name="Inputaddress" id="Inputaddress" value="<?php echo $user['address']; ?>" />
+								                    </div>
+																		<div class="form-group col-md-6">
+								                      <label for="Inputstate">State</label>
+								                      <input type="text" class="form-control" name="Inputstate" id="Inputstate" value="<?php echo $user['state']; ?>" />
+								                    </div>
+								                  </div>
+								                  <div class="form-row">
+																		<div class="form-group col-md-6">
+									                    <label for="inputcity">City</label>
+									                    <input type="text" class="form-control" name="inputcity" id="inputcity" value="<?php echo $user['city']; ?>" />
+									                  </div>
+																		<div class="form-group col-md-6">
+									                    <label for="inputzip">Zip</label>
+									                    <input type="text" class="form-control" name="inputzip" id="inputzip" value="<?php echo $user['zip']; ?>" />
+									                  </div>
+								                  </div>
+								                  <button type="submit" name="update-btn" class="btn btn-primary mt-3">Update</button>
+								                </form>
+			                        </div>
+			                        <!-- Modal footer -->
+			                        <div class="modal-footer">
+			                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			                        </div>
+
+			                      </div>
+			                    </div>
+			                  </div>
+						</td>
+					</tr>
+					<?php $count=$count+1; }} ?>
+				</tbody>
+    </table>
+			 </div>
+
+
+   </div>
+	</div>
+</div>
+  </body>
+</html>
+<!-- bootstrap core -->
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js.map"></script>
+<script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<?php } ?>
+<script>
+    $(document).ready(function() {
+        $('#warehouse-list').DataTable();
+    });
+    </script>
+<!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
