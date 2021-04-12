@@ -12,14 +12,14 @@ else {
 // Delete user
 	if (isset($_GET['del'])) {
 	$id = $_GET['del'];
-	$del_query = mysqli_query($conn, "DELETE FROM warehouse WHERE id=$id");
+	$del_query = mysqli_query($conn, "DELETE FROM seller WHERE id=$id");
 	if ($del_query) {
 		$success = "User Deleted";
-		header("Location:view-warehouse.php?success=".$success);
+		header("Location:view-sellers.php?success=".$success);
 	}
 	else {
 		$error = "ERROR!";
-		header("Location:view-warehouse.php?error=".$error);
+		header("Location:view-sellers.php?error=".$error);
 	}
 }
 
@@ -35,19 +35,19 @@ else {
 	$city = $_POST['Inputcity'];
 	$zip = $_POST['Inputzip'];
 
-	$update_query = mysqli_query($conn, "UPDATE warehouse SET name='$name', email='$email', password='$password', contact='$contact', address='$address', state='$state', city='$city', zip='$zip' WHERE id=$id");
+	$update_query = mysqli_query($conn, "UPDATE seller SET name='$name', email='$email', password='$password', contact='$contact', address='$address', state='$state', city='$city', zip='$zip' WHERE id=$id");
 	if ($update_query) {
 		$success = "User Deleted";
-		header("Location:view-warehouse.php?success=".$success);
+		header("Location:view-sellers.php?success=".$success);
 	}
 	else {
 		$error = "ERROR!";
-		header("Location:view-warehouse.php?error=".$error);
+		header("Location:view-sellers.php?error=".$error);
 	}
 }
 
 // display details
-	$sql = "SELECT * FROM warehouse where status = 1";
+	$sql = "SELECT * FROM seller WHERE status = 1";
 	$result = $conn->query($sql);
 	$arr_users = [];
 	$count = 1;
@@ -61,7 +61,7 @@ else {
   <head>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>View Warehouses | StoreIt Warehouse Management System</title>
+    <title>View Sellers | StoreIt Warehouse Management System</title>
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -91,7 +91,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h2 class="pg-heading">Warehouses</h2>
+					 <h2 class="pg-heading">Sellers</h2>
 				 </div>
 			 </div>
 			 <!-- popup message -->
@@ -123,10 +123,10 @@ else {
 				 </div>
 			 <?php } ?>
 			 <div class="table-responsive">
-				<table id="warehouse-list" class="table table-striped table-bordered" style="width:100%">
+				<table id="seller-list" class="table table-striped table-bordered table-hover" style="width:100%">
         <thead>
             <tr>
-								<th>#</th>
+							<th>#</th>
                 <th>Name</th>
                 <th>Email</th>
 								<th>Password</th>
@@ -253,9 +253,9 @@ else {
 <?php } ?>
 <script>
     $(document).ready(function() {
-        $('#warehouse-list').DataTable();
+        $('#seller-list').DataTable();
     });
-    </script>
+</script>
 <!-- Menu Toggle Script -->
   <script>
     $("#menu-toggle").click(function(e) {

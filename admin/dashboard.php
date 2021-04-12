@@ -4,7 +4,7 @@ error_reporting(0);
 include('../include/connection.php');
 if(strlen($_SESSION['alogin'])==0)
 	{
-header('location:index.php');
+header('location:../index.php');
 }
 else{
 ?>
@@ -15,7 +15,6 @@ else{
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Dashboard | StoreIt Warehouse Management System</title>
-
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -29,7 +28,6 @@ else{
 		<!--Open sans font-->
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-
 </head>
 
   <body>
@@ -121,10 +119,8 @@ else{
     			</div>
   			</div>
 			</div>
-
 		 </div>
 	 </div>
-
  </div>
   </body>
 </html>

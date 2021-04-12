@@ -212,20 +212,35 @@ elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
 
               <!-- login -->
               <div class="tab-pane fade show active login-box" id="login" role="tabpanel" aria-labelledby="login-tab">
-
+                <!-- popup message -->
+                <!-- Error msg -->
                 <?php
                 if(isset($_GET['error']) && $_GET['error'] !='')
-                {?><div class="errorWrap"><?php
-                echo $_GET['error'];
-                unset($_GET['error']);
-                ?></div>          <?php } ?>
-
+                {?>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?php
+                      echo $_GET['error'];
+                      unset($_GET['error']);
+                    ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php } ?>
+                <!-- Success msg -->
                 <?php
                 if(isset($_GET['success']) && $_GET['success'] !='')
-                {?><div class="succWrap"><?php
-                echo $_GET['success'];
-                unset($_GET['success']);
-                ?></div>          <?php } ?>
+                {?>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php
+                      echo $_GET['success'];
+                      unset($_GET['success']);
+                    ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <?php } ?>
                 <!--Login form-->
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="login" onsubmit="#" method="post">
 
@@ -280,7 +295,7 @@ elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
               <!-- Sign Up -->
               <div class="tab-pane fade show" id="signup" role="tabpanel" aria-labelledby="signup-tab">
 
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="signup" onsubmit="#" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="signup" method="post" enctype="multipart/form-data">
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="choose-user">Choose User</label>

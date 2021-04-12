@@ -45,29 +45,6 @@ body {
   font-size: 14px !important;
 }
 
-.errorWrap {
-  width: 100%;
-  padding: 15px 15px;
-  margin: 0 0 20px 0;
-  text-align: center;
-  background: #fff;
-  border-left: 4px solid #dd3d36;
-  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-
-.succWrap {
-  width: 100%;
-  padding: 15px 15px;
-  margin: 0 0 20px 0;
-  text-align: center;
-  background: #fff;
-  border-left: 4px solid #5cb85c;
-  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-}
-
-
 /*#################### Signup ######################## */
 
 .star {
