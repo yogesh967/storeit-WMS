@@ -3,23 +3,19 @@ include("../include/connection.php");
 session_start();
 error_reporting(0);
 
-if(strlen($_SESSION['alogin'] AND $_SESSION['aname']) == 0) {
+if(strlen($_SESSION['wid'] AND $_SESSION['wname']) == 0) {
 header('location:../index.php');
 }
 else {
-  //  Signup
+   // Add product
   if(isset($_POST['submit-btn'])) {
-    $inputname = mysqli_real_escape_string($conn,trim($_POST['Inputname']));
-    $inputEmail = mysqli_real_escape_string($conn,trim($_POST['inputEmail']));
-    $contact = mysqli_real_escape_string($conn,trim($_POST['contact']));
-    $confirmpass = mysqli_real_escape_string($conn,trim($_POST['confirm-pass']));
-    $inputaddress = mysqli_real_escape_string($conn,trim($_POST['inputAddress']));
-    $state = mysqli_real_escape_string($conn,trim($_POST['stt']));
-    $city = mysqli_real_escape_string($conn,trim($_POST['state']));
-    $zip = mysqli_real_escape_string($conn,trim($_POST['inputZip']));
+    $wid = $_POST['wid'];
+    $inputEmail = mysqli_real_escape_string($conn,trim($_POST['w_name']));
+    $contact = mysqli_real_escape_string($conn,trim($_POST['pro_name']));
+    $confirmpass = mysqli_real_escape_string($conn,trim($_POST['pro_catlg']));
+    $inputaddress = $_POST['quantity'];
+    $state = mysqli_real_escape_string($conn,trim($_POST['p_disc']));
     $fileName = basename($_FILES["UploadImage"]["name"]);
-    $w_email_valid = false;
-    $w_contact_valid = false;
     $success="";
     $error="";
 
@@ -82,11 +78,9 @@ else {
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/bootstrap.min.css.map" />
 		<!-- custom style -->
-		<link rel="stylesheet" href="css/adminstyle.css">
+		<link rel="stylesheet" href="../admin/css/adminstyle.css">
 		<!--Jquery-->
 		<script src="../js/jquery.js"></script>
-		<!-- state city -->
-		<script type="text/javascript" src="../js/cities.js"></script>
 		<!--bootstrap  icon-->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
 		<!--Open sans font-->
@@ -101,11 +95,10 @@ else {
 		<?php include('include/leftbar.php');?>
 	 <!-- Page Content -->
 	 	<div id="page-content-wrapper">
-
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Add Warehouse</h1>
+					 <h1 class="pg-heading">Add Product</h1>
 				 </div>
 			 </div>
 			 <!-- popup message -->
@@ -137,59 +130,44 @@ else {
 					 </button>
 				 </div>
 			 <?php } ?>
-       <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="signup" method="post" enctype="multipart/form-data">
+       <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="add-product" method="post" enctype="multipart/form-data">
          <div class="form-row">
            <div class="form-group col-md-6">
-             <label for="Inputname">Name<span class="star"> *</span></label>
-             <input type="text" class="form-control" name="Inputname" id="Inputname" placeholder="Enter Warehouse full name" required />
-           </div>
-           <div class="form-group col-md-6">
-             <label for="inputEmail">Email<span class="star"> *</span></label>
-             <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="Enter email address" required />
+             <input type="hidden" name="wid" value="<?php echo $_SESSION['wid']; ?>" />
+             <label for="w_name">Warehouse Name</label>
+             <select id="w_name" name="w_name" class="form-control">
+               <option selected><?php echo $_SESSION['wname']; ?></option>
+             </select>
            </div>
          </div>
 
          <div class="form-row">
            <div class="form-group col-md-6">
-             <label for="enter-pass">Password<span class="star"> *</span></label>
-             <input type="password" class="form-control" name="enter-pass" id="enter-pass" placeholder="Enter password" required />
-           </div>
-           <div class="form-group col-md-6">
-             <label for="confirm-pass">Confirm Password<span class="star"> *</span></label>
-             <input type="password" class="form-control" name="confirm-pass" id="confirm-pass" placeholder="Confirm password" onChange="onChange()" required />
-             <div>
-               <span id='message'></span>
-             </div>
-           </div>
-         </div>
-         <div class="form-group">
-           <label for="inputAddress">Address<span class="star"> *</span></label>
-           <input type="text" class="form-control" name="inputAddress" id="inputAddress" placeholder="Enter Address" required />
-         </div>
-         <div class="form-row">
-           <div class="form-group col-md-6">
-             <label for="sts">State<span class="star"> *</span></label>
-             <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control" required></select>
-           </div>
-           <div class="form-group col-md-6">
-             <label for="state">City<span class="star"> *</span></label>
-             <select id="state" name="state" class="form-control" required></select>
-             <script language="javascript">print_state("sts");</script>
+             <label for="pro_name">Product Name<span class="star"> *</span></label>
+             <input type="text" class="form-control" name="pro_name" id="pro_name" placeholder="Enter Product Name" required />
            </div>
          </div>
          <div class="form-row">
            <div class="form-group col-md-6">
-             <label for="inputZip">Zip<span class="star"> *</span></label>
-             <input type="text" class="form-control" name="inputZip" id="inputZip" required />
-           </div>
-           <div class="form-group col-md-6">
-             <label for="contact">Contact No.<span class="star"> *</span></label>
-             <input type="text" class="form-control" name="contact" id="contact" placeholder="Enter Contact Number" required />
+             <label for="pro_catlg">Product Category<span class="star"> *</span></label>
+             <input type="text" class="form-control" name="pro_catlg" id="pro_catlg" placeholder="Enter Product Category" required />
            </div>
          </div>
-         <div class="form-group">
-           <label for="UploadImage">Profile Image</label>
-           <input type="file" class="form-control" name="UploadImage" id="UploadImage" onchange="return fileValidation()" />
+         <div class="form-row">
+           <div class="form-group col-md-6">
+             <label for="quantity">Quantity<span class="star"> *</span></label>
+             <input type="number" class="form-control" name="quantity" id="quantity" min="1" required />
+           </div>
+         </div>
+         <div class="form-row">
+           <div class="form-group col-md-6">
+             <label for="p_disc">Product Description</span></label>
+             <input type="text" class="form-control" name="p_disc" id="p_disc" />
+           </div>
+         </div>
+         <div class="form-group col-md-6">
+           <label for="UploadImage">Product Image</label>
+           <input type="file" class="form-control" name="UploadImage" id="UploadImage" onchange="return fileValidation()" required />
          </div>
          <button type="submit" name="submit-btn" class="btn btn-primary mt-4">Submit</button>
        </form>
@@ -216,7 +194,6 @@ else {
   function fileValidation() {
     var fileInput = document.getElementById('UploadImage');
     var filePath = fileInput.value;
-
     // Allowing file type
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
 
@@ -224,19 +201,6 @@ else {
       alert('Invalid file type');
       fileInput.value = '';
       return false;
-    }
-  }
-
-// matching password
-  function onChange() {
-    const password = document.querySelector('input[name=enter-pass]');
-    const confirm = document.querySelector('input[name=confirm-pass]');
-    if (confirm.value === password.value) {
-      confirm.setCustomValidity('');
-    } else {
-      confirm.setCustomValidity('Passwords do not match');
-      document.getElementById('message').style.color = 'red';
-      document.getElementById('message').innerHTML = 'password not matching';
     }
   }
   </script>

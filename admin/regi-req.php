@@ -2,8 +2,7 @@
 include("../include/connection.php");
 session_start();
 error_reporting(0);
-
-if(strlen($_SESSION['alogin'])==0) {
+if(strlen($_SESSION['alogin'] AND $_SESSION['aname']) == 0) {
 header('location:../index.php');
 }
 else {
@@ -77,7 +76,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h2 class="pg-heading">Registration Requests</h2>
+					 <h1 class="pg-heading">Registration Requests</h1>
 				 </div>
 			 </div>
 			 <div class="row">
@@ -222,33 +221,4 @@ else {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
-  </script>
-	<script type="text/javascript">
-  // File tye validation
-  function fileValidation() {
-    var fileInput = document.getElementById('UploadImage');
-    var filePath = fileInput.value;
-
-    // Allowing file type
-    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-
-    if (!allowedExtensions.exec(filePath)) {
-      alert('Invalid file type');
-      fileInput.value = '';
-      return false;
-    }
-  }
-
-// matching password
-  function onChange() {
-    const password = document.querySelector('input[name=enter-pass]');
-    const confirm = document.querySelector('input[name=confirm-pass]');
-    if (confirm.value === password.value) {
-      confirm.setCustomValidity('');
-    } else {
-      confirm.setCustomValidity('Passwords do not match');
-      document.getElementById('message').style.color = 'red';
-      document.getElementById('message').innerHTML = 'password not matching';
-    }
-  }
   </script>

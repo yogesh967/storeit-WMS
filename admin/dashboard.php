@@ -2,8 +2,7 @@
 session_start();
 error_reporting(0);
 include('../include/connection.php');
-if(strlen($_SESSION['alogin'])==0)
-	{
+if(strlen($_SESSION['alogin'] AND $_SESSION['aname']) == 0)	{
 header('location:../index.php');
 }
 else{
@@ -41,7 +40,7 @@ else{
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h2 class="pg-heading">Dashboard</h2>
+					 <h1 class="pg-heading">Dashboard</h1>
 				 </div>
 			 </div>
 

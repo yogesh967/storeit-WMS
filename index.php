@@ -19,11 +19,13 @@ if(isset($_POST['login-btn'])) {
 
   $fetch_warehouse = mysqli_fetch_array($fire_warehouse);
   $fetch_seller = mysqli_fetch_array($fire_seller);
+  $fetch_admin = mysqli_fetch_array($fire_admin);
 
   if ($user == 'Admin') {
     if (mysqli_num_rows($fire_admin) == 1) {
       session_start();
-      $_SESSION['alogin'] = $_POST['email'];
+      $_SESSION['alogin'] = $fetch_admin['id'];
+      $_SESSION['aname'] = $fetch_admin['username'];
       header("location:admin/dashboard.php");
     }
 
@@ -37,7 +39,7 @@ if(isset($_POST['login-btn'])) {
     if (mysqli_num_rows($fire_warehouse) == 1) {
       session_start();
       $_SESSION['wid'] = $fetch_warehouse['id'];
-			$_SESSION['wname'] = $fetch_warehouse['name'];
+      $_SESSION['wname'] = $fetch_warehouse['name'];
       header("location:warehouse/dashboard.php");
     }
 
@@ -51,7 +53,7 @@ if(isset($_POST['login-btn'])) {
     if (mysqli_num_rows($fire_seller) == 1) {
       session_start();
       $_SESSION['sid'] = $fetch['id'];
-			$_SESSION['sname'] = $fetch['name'];
+      $_SESSION['sname'] = $fetch['name'];
       header("location:seller/dashboard.php");
     }
 
@@ -128,23 +130,20 @@ if(isset($_POST['signup-btn'])) {
     $s_contact_valid = true;
   }
 
-  // Upload file
-  $pname = rand(1000,10000)."-".$fileName;
-  #temporary file name to store file
-  $tname = $_FILES["UploadImage"]["tmp_name"];
-  #upload directory path
-  $uploads_dir = 'C:/xampp/htdocs/storeit-WMS/images/users';
-  #TO move the uploaded file to specific location
-  move_uploaded_file($tname, $uploads_dir.'/'.$pname);
-
-
-  $query_warehouse = "INSERT INTO warehouse(name, email, password, contact, address, state, city, zip, image, status)
-  VALUES('$inputname', '$inputEmail', '$confirmpass', '$contact', '$inputaddress', '$state', '$city', '$zip', '$pname', '0')";
-
-  $query_seller = "INSERT INTO seller(name, email, password, contact, address, state, city, zip, image, status)
-  VALUES('$inputname', '$inputEmail', '$confirmpass', '$contact', '$inputaddress', '$state', '$city', '$zip', '$pname', '0')";
+  if ($w_email_valid && $w_contact_valid || $s_email_valid && $s_contact_valid) {
+    // Upload file
+    $pname = rand(1000,10000)."-".$fileName;
+    #temporary file name to store file
+    $tname = $_FILES["UploadImage"]["tmp_name"];
+    #upload directory path
+    $uploads_dir = 'C:/xampp/htdocs/storeit-WMS/images/users';
+    #TO move the uploaded file to specific location
+    move_uploaded_file($tname, $uploads_dir.'/'.$pname);
+  }
 
 if ($choose_user=='Warehouse' && $w_email_valid && $w_contact_valid) {
+  $query_warehouse = "INSERT INTO warehouse(name, email, password, contact, address, state, city, zip, image, status)
+  VALUES('$inputname', '$inputEmail', '$confirmpass', '$contact', '$inputaddress', '$state', '$city', '$zip', '$pname', '0')";
   $fire_warehouse1 = mysqli_query($conn,$query_warehouse);
   if ($fire_warehouse1) {
     $success = "Sign Up as a warehouse Successfully";
@@ -157,6 +156,8 @@ if ($choose_user=='Warehouse' && $w_email_valid && $w_contact_valid) {
 }
 
 elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
+  $query_seller = "INSERT INTO seller(name, email, password, contact, address, state, city, zip, image, status)
+  VALUES('$inputname', '$inputEmail', '$confirmpass', '$contact', '$inputaddress', '$state', '$city', '$zip', '$pname', '0')";
   $fire_seller1 = mysqli_query($conn,$query_seller);
   if ($fire_seller1) {
     $success = "Sign Up as a seller Successfully";

@@ -18,37 +18,37 @@ else {
     $city = mysqli_real_escape_string($conn,trim($_POST['state']));
     $zip = mysqli_real_escape_string($conn,trim($_POST['inputZip']));
     $fileName = basename($_FILES["UploadImage"]["name"]);
-    $w_email_valid = false;
-    $w_contact_valid = false;
+    $s_email_valid = false;
+    $s_contact_valid = false;
     $success="";
     $error="";
 
 
   // Duplicate validation
-    $warehouse_e = "SELECT email FROM warehouse WHERE email='$inputEmail'";
-    $warehouse_c = "SELECT contact FROM warehouse WHERE contact='$contact'";
-    $w_res_e = mysqli_query($conn, $warehouse_e);
-    $w_res_m = mysqli_query($conn, $warehouse_c);
+    $seller_e = "SELECT email FROM seller WHERE email='$inputEmail'";
+    $seller_c = "SELECT contact FROM seller WHERE contact='$contact'";
+    $s_res_e = mysqli_query($conn, $seller_e);
+    $s_res_m = mysqli_query($conn, $seller_c);
 
-    if (mysqli_num_rows($w_res_e) > 0) {
+    if (mysqli_num_rows($s_res_e) > 0) {
       $error = "Email id already exist, Try another";
-      header("Location:add-warehouse.php?error=".$error);
+      header("Location:add-seller.php?error=".$error);
     }
 
     else {
-      $w_email_valid = true;
+      $s_email_valid = true;
     }
 
-    if (mysqli_num_rows($w_res_m) > 0) {
+    if (mysqli_num_rows($s_res_m) > 0) {
       $error = "Contact number already exist, Try another";
-      header("Location:add-warehouse.php?error=".$error);
+      header("Location:add-seller.php?error=".$error);
     }
 
     else {
-      $w_contact_valid = true;
+      $s_contact_valid = true;
     }
 
-  if ($w_email_valid && $w_contact_valid) {
+  if ($s_email_valid && $s_contact_valid) {
     // Upload file
     $pname = rand(1000,10000)."-".$fileName;
     #temporary file name to store file
@@ -57,16 +57,17 @@ else {
     $uploads_dir = 'C:/xampp/htdocs/storeit-WMS/images/users';
     #TO move the uploaded file to specific location
     move_uploaded_file($tname, $uploads_dir.'/'.$pname);
-    $query_warehouse = "INSERT INTO warehouse(name, email, password, contact, address, state, city, zip, image, status)
+
+    $query_seller = "INSERT INTO seller(name, email, password, contact, address, state, city, zip, image, status)
     VALUES('$inputname', '$inputEmail', '$confirmpass', '$contact', '$inputaddress', '$state', '$city', '$zip', '$pname', '1')";
-    $fire_warehouse1 = mysqli_query($conn,$query_warehouse);
-    if ($fire_warehouse1) {
-      $success = "Warehouse added Successfully";
-      header("Location:add-warehouse.php?success=".$success);
+    $fire_seller1 = mysqli_query($conn,$query_seller);
+    if ($fire_seller1) {
+      $success = "Seller added Successfully";
+      header("Location:add-seller.php?success=".$success);
     }
     else {
       $error = "ERROR!";
-      header("Location:add-warehouse.php?error=".$error);
+      header("Location:add-seller.php?error=".$error);
     }
   }
 }
@@ -76,7 +77,7 @@ else {
   <head>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Warehouse | StoreIt Warehouse Management System</title>
+    <title>Add Seller | StoreIt Warehouse Management System</title>
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -105,7 +106,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Add Warehouse</h1>
+					 <h1 class="pg-heading">Add Seller</h1>
 				 </div>
 			 </div>
 			 <!-- popup message -->
@@ -141,7 +142,7 @@ else {
          <div class="form-row">
            <div class="form-group col-md-6">
              <label for="Inputname">Name<span class="star"> *</span></label>
-             <input type="text" class="form-control" name="Inputname" id="Inputname" placeholder="Enter Warehouse full name" required />
+             <input type="text" class="form-control" name="Inputname" id="Inputname" placeholder="Enter Seller full name" required />
            </div>
            <div class="form-group col-md-6">
              <label for="inputEmail">Email<span class="star"> *</span></label>
