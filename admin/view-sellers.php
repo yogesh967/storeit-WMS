@@ -26,18 +26,18 @@ else {
 // Update user
 	if (isset($_POST['update-btn'])) {
 	$id = $_POST['id'];
-	$name = $_POST['Inputname'];
-	$password = $_POST['Inputpass'];
-	$email = $_POST['Inputemail'];
-	$contact = $_POST['Inputcontact'];
-	$address = $_POST['Inputaddress'];
-	$state = $_POST['Inputstate'];
-	$city = $_POST['Inputcity'];
+	$name = mysqli_real_escape_string($conn,trim($_POST['Inputname']));
+	$password = mysqli_real_escape_string($conn,trim($_POST['Inputpass']));
+	$email = mysqli_real_escape_string($conn,trim($_POST['Inputemail']));
+	$contact = mysqli_real_escape_string($conn,trim($_POST['Inputcontact']));
+	$address = mysqli_real_escape_string($conn,trim($_POST['Inputaddress']));
+	$state = mysqli_real_escape_string($conn,trim($_POST['Inputstate']));
+	$city = mysqli_real_escape_string($conn,trim($_POST['Inputcity']));
 	$zip = $_POST['Inputzip'];
 
 	$update_query = mysqli_query($conn, "UPDATE seller SET name='$name', email='$email', password='$password', contact='$contact', address='$address', state='$state', city='$city', zip='$zip' WHERE id=$id");
 	if ($update_query) {
-		$success = "User Deleted";
+		$success = "User Details Updated";
 		header("Location:view-sellers.php?success=".$success);
 	}
 	else {
@@ -91,7 +91,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Sellers</h1>
+					 <h2 class="pg-heading">Sellers</h2>
 				 </div>
 			 </div>
 			 <!-- popup message -->
@@ -122,7 +122,6 @@ else {
 					 </button>
 				 </div>
 			 <?php } ?>
-			 <div class="table-responsive">
 				<table id="seller-list" class="table table-striped table-bordered table-hover" style="width:100%">
         <thead>
             <tr>
@@ -158,69 +157,69 @@ else {
 							<a href="view-warehouse.php?del=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" >Delete</a>
 
 							<div class="modal fade " id="myModal<?php echo $user['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-			                      <div class="modal-content">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
 
-			                        <!-- Modal Header -->
-			                        <div class="modal-header">
-			                          <h5 class="modal-title">Details</h5>
-			                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			                        </div>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h5 class="modal-title">Update</h5>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
 
-			                        <!-- Modal body -->
-			                        <div class="modal-body" style="text-align:left;">
-																<form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="update-warehouse" method="post" enctype="multipart/form-data">
-								                  <div class="form-row">
-								                    <div class="form-group col-md-6">
-								                      <label for="Inputname">Name</label>
-																			<input type="hidden" name="id" value="<?php echo $user['id']; ?>" />
-								                      <input type="text" class="form-control" name="Inputname" id="Inputname" value="<?php echo $user['name']; ?>" />
-								                    </div>
-																		<div class="form-group col-md-6">
-								                      <label for="Inputpass">Password</label>
-								                      <input type="text" class="form-control" name="Inputpass" id="Inputpass" value="<?php echo $user['password']; ?>" />
-								                    </div>
-								                  </div>
-								                  <div class="form-row">
-																		<div class="form-group col-md-6">
-								                      <label for="Inputemail">Email</label>
-								                      <input type="text" class="form-control" name="Inputemail" id="Inputemail" value="<?php echo $user['email']; ?>" />
-								                    </div>
-																		<div class="form-group col-md-6">
-								                      <label for="Inputcontact">Contact No.</label>
-								                      <input type="text" class="form-control" name="Inputcontact" id="Inputcontact" value="<?php echo $user['contact']; ?>" />
-								                    </div>
-								                  </div>
-								                  <div class="form-row">
-																		<div class="form-group col-md-6">
-								                      <label for="Inputaddress">Address</label>
-								                      <input type="text" class="form-control" name="Inputaddress" id="Inputaddress" value="<?php echo $user['address']; ?>" />
-								                    </div>
-																		<div class="form-group col-md-6">
-								                      <label for="Inputstate">State</label>
-								                      <input type="text" class="form-control" name="Inputstate" id="Inputstate" value="<?php echo $user['state']; ?>" />
-								                    </div>
-								                  </div>
-								                  <div class="form-row">
-																		<div class="form-group col-md-6">
-									                    <label for="inputcity">City</label>
-									                    <input type="text" class="form-control" name="Inputcity" id="inputcity" value="<?php echo $user['city']; ?>" />
-									                  </div>
-																		<div class="form-group col-md-6">
-									                    <label for="inputzip">Zip</label>
-									                    <input type="text" class="form-control" name="Inputzip" id="inputzip" value="<?php echo $user['zip']; ?>" />
-									                  </div>
-								                  </div>
-								                  <button type="submit" name="update-btn" class="btn btn-primary mt-3">Update</button>
-								                </form>
-			                        </div>
-			                        <!-- Modal footer -->
-			                        <div class="modal-footer">
-			                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-			                        </div>
-			                      </div>
+                    <!-- Modal body -->
+                    <div class="modal-body" style="text-align:left;">
+											<form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="update-warehouse" method="post" enctype="multipart/form-data">
+			                  <div class="form-row">
+			                    <div class="form-group col-md-6">
+			                      <label for="Inputname">Name</label>
+														<input type="hidden" name="id" value="<?php echo $user['id']; ?>" />
+			                      <input type="text" class="form-control" name="Inputname" id="Inputname" value="<?php echo $user['name']; ?>" />
+			                    </div>
+													<div class="form-group col-md-6">
+			                      <label for="Inputpass">Password</label>
+			                      <input type="text" class="form-control" name="Inputpass" id="Inputpass" value="<?php echo $user['password']; ?>" />
 			                    </div>
 			                  </div>
+			                  <div class="form-row">
+													<div class="form-group col-md-6">
+			                      <label for="Inputemail">Email</label>
+			                      <input type="text" class="form-control" name="Inputemail" id="Inputemail" value="<?php echo $user['email']; ?>" />
+			                    </div>
+													<div class="form-group col-md-6">
+			                      <label for="Inputcontact">Contact No.</label>
+			                      <input type="text" class="form-control" name="Inputcontact" id="Inputcontact" value="<?php echo $user['contact']; ?>" />
+			                    </div>
+			                  </div>
+			                  <div class="form-row">
+													<div class="form-group col-md-6">
+			                      <label for="Inputaddress">Address</label>
+			                      <input type="text" class="form-control" name="Inputaddress" id="Inputaddress" value="<?php echo $user['address']; ?>" />
+			                    </div>
+													<div class="form-group col-md-6">
+			                      <label for="Inputstate">State</label>
+			                      <input type="text" class="form-control" name="Inputstate" id="Inputstate" value="<?php echo $user['state']; ?>" />
+			                    </div>
+			                  </div>
+			                  <div class="form-row">
+													<div class="form-group col-md-6">
+				                    <label for="inputcity">City</label>
+				                    <input type="text" class="form-control" name="Inputcity" id="inputcity" value="<?php echo $user['city']; ?>" />
+				                  </div>
+													<div class="form-group col-md-6">
+				                    <label for="inputzip">Zip</label>
+				                    <input type="text" class="form-control" name="Inputzip" id="inputzip" value="<?php echo $user['zip']; ?>" />
+				                  </div>
+			                  </div>
+			                  <button type="submit" name="update-btn" class="btn btn-primary mt-3">Update</button>
+			                </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+			        </div>
 						</td>
 					</tr>
 					<?php $count=$count+1; }} ?>
@@ -238,7 +237,6 @@ else {
 					<th>Action</th>
 				</tfoot>
     		</table>
-			 </div>
    </div>
 	</div>
 </div>

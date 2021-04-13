@@ -40,7 +40,7 @@ else{
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Dashboard</h1>
+					 <h2 class="pg-heading">Dashboard</h2>
 				 </div>
 			 </div>
 

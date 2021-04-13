@@ -63,6 +63,9 @@ else {
 		<!--Open sans font-->
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+		<!-- data table -->
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"/>
 	</head>
 
   <body>
@@ -76,7 +79,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Registration Requests</h1>
+					 <h2 class="pg-heading">Registration Requests</h2>
 				 </div>
 			 </div>
 			 <div class="row">
@@ -114,7 +117,6 @@ else {
 				 </div>
 			 <?php } ?>
 
-			 <div class="table-responsive">
 				<table id="seller-list" class="table table-striped table-bordered table-hover" style="width:100%">
         <thead>
             <tr>
@@ -155,7 +157,7 @@ else {
 				</tbody>
     		</table>
 
-				<div class="row">
+				<div class="row seller-req">
  				 <div class="col-md-12 pl-4 pt-2 pb-2">
  					 <h3>Seller</h3>
  				 </div>
@@ -202,9 +204,7 @@ else {
 					</tr>
 					<?php $count2=$count2+1; }} ?>
 				</tbody>
-
     		</table>
-			 </div>
    </div>
 	</div>
 </div>
@@ -214,6 +214,8 @@ else {
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap.min.js.map"></script>
 <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
 <?php } ?>
 <!-- Menu Toggle Script -->
   <script>
@@ -222,3 +224,16 @@ else {
       $("#wrapper").toggleClass("toggled");
     });
   </script>
+	<script>
+	    $(document).ready(function() {
+	        $('#warehouse-list').DataTable({
+						"paging":   false,
+					});
+	    });
+
+			$(document).ready(function() {
+	        $('#seller-list').DataTable({
+						"paging":   false,
+					});
+	    });
+	</script>

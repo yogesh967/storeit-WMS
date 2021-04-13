@@ -169,7 +169,6 @@ elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
   }
 }
 }
-
 ?>
   <!DOCTYPE html>
   <html lang="en" dir="ltr">
@@ -178,11 +177,11 @@ elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Login | StoreIt Warehouse Management System</title>
 
-      <link rel="stylesheet" href="css/style.css" />
       <!--bootstrap core-->
       <link rel="stylesheet" href="css/bootstrap.min.css" />
       <link rel="stylesheet" href="css/bootstrap.min.css.map" />
-
+      <!-- custom style -->
+      <link rel="stylesheet" href="css/style.css" />
       <!--Jquery-->
       <script src="js/jquery.js"></script>
       <!-- state city -->
@@ -190,8 +189,8 @@ elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
       <!--bootstrap  icon-->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
       <!--Open sans font-->
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  		<link rel="preconnect" href="https://fonts.gstatic.com">
+  		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     </head>
     <body>
       <div class="container">

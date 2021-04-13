@@ -105,7 +105,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Add Warehouse</h1>
+					 <h2 class="pg-heading">Add Warehouse</h2>
 				 </div>
 			 </div>
 			 <!-- popup message -->

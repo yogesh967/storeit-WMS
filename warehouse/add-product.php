@@ -7,65 +7,26 @@ if(strlen($_SESSION['wid'] AND $_SESSION['wname']) == 0) {
 header('location:../index.php');
 }
 else {
+  $wid = $_SESSION['wid'];
    // Add product
   if(isset($_POST['submit-btn'])) {
-    $wid = $_POST['wid'];
     $inputEmail = mysqli_real_escape_string($conn,trim($_POST['w_name']));
     $contact = mysqli_real_escape_string($conn,trim($_POST['pro_name']));
-    $confirmpass = mysqli_real_escape_string($conn,trim($_POST['pro_catlg']));
+    $confirmpass = mysqli_real_escape_string($conn,trim($_POST['pro_catg']));
     $inputaddress = $_POST['quantity'];
     $state = mysqli_real_escape_string($conn,trim($_POST['p_disc']));
     $fileName = basename($_FILES["UploadImage"]["name"]);
     $success="";
     $error="";
-
-
-  // Duplicate validation
-    $warehouse_e = "SELECT email FROM warehouse WHERE email='$inputEmail'";
-    $warehouse_c = "SELECT contact FROM warehouse WHERE contact='$contact'";
-    $w_res_e = mysqli_query($conn, $warehouse_e);
-    $w_res_m = mysqli_query($conn, $warehouse_c);
-
-    if (mysqli_num_rows($w_res_e) > 0) {
-      $error = "Email id already exist, Try another";
-      header("Location:add-warehouse.php?error=".$error);
-    }
-
-    else {
-      $w_email_valid = true;
-    }
-
-    if (mysqli_num_rows($w_res_m) > 0) {
-      $error = "Contact number already exist, Try another";
-      header("Location:add-warehouse.php?error=".$error);
-    }
-
-    else {
-      $w_contact_valid = true;
-    }
-
-  if ($w_email_valid && $w_contact_valid) {
-    // Upload file
-    $pname = rand(1000,10000)."-".$fileName;
-    #temporary file name to store file
-    $tname = $_FILES["UploadImage"]["tmp_name"];
-    #upload directory path
-    $uploads_dir = 'C:/xampp/htdocs/storeit-WMS/images/users';
-    #TO move the uploaded file to specific location
-    move_uploaded_file($tname, $uploads_dir.'/'.$pname);
-    $query_warehouse = "INSERT INTO warehouse(name, email, password, contact, address, state, city, zip, image, status)
-    VALUES('$inputname', '$inputEmail', '$confirmpass', '$contact', '$inputaddress', '$state', '$city', '$zip', '$pname', '1')";
-    $fire_warehouse1 = mysqli_query($conn,$query_warehouse);
-    if ($fire_warehouse1) {
-      $success = "Warehouse added Successfully";
-      header("Location:add-warehouse.php?success=".$success);
-    }
-    else {
-      $error = "ERROR!";
-      header("Location:add-warehouse.php?error=".$error);
-    }
-  }
 }
+
+  // Product Category
+  $pro_cat = "SELECT * FROM product_cat WHERE w_id = '$wid'";
+  $fire_pcat = mysqli_query($conn, $pro_cat);
+  $options = "";
+  while ($row1 = mysqli_fetch_array($fire_pcat)) {
+    $options = $options."<option>$row1[2]</option>";
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -98,7 +59,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Add Product</h1>
+					 <h2 class="pg-heading">Add Product</h2>
 				 </div>
 			 </div>
 			 <!-- popup message -->
@@ -133,7 +94,6 @@ else {
        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="add-product" method="post" enctype="multipart/form-data">
          <div class="form-row">
            <div class="form-group col-md-6">
-             <input type="hidden" name="wid" value="<?php echo $_SESSION['wid']; ?>" />
              <label for="w_name">Warehouse Name</label>
              <select id="w_name" name="w_name" class="form-control">
                <option selected><?php echo $_SESSION['wname']; ?></option>
@@ -149,8 +109,10 @@ else {
          </div>
          <div class="form-row">
            <div class="form-group col-md-6">
-             <label for="pro_catlg">Product Category<span class="star"> *</span></label>
-             <input type="text" class="form-control" name="pro_catlg" id="pro_catlg" placeholder="Enter Product Category" required />
+             <label for="pro_catg">Product Category<span class="star"> *</span></label>
+             <select id="pro_catg" name="pro_catg" class="form-control">
+               <?php echo $options; ?>
+             </select>
            </div>
          </div>
          <div class="form-row">

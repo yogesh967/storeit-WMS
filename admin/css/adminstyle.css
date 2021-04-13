@@ -1,8 +1,10 @@
 body {
   margin: 0 auto;
   padding: 0;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px !important;
+}
+
+h2, h3 {
+  font-weight: 600;
 }
 
 #wrapper {
@@ -98,14 +100,15 @@ body {
   text-align: center;
 }
 
-.form-control {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 14px !important;
-}
-
 /* add warehouse */
 .star {
   color: red;
+}
+
+.seller-req {
+  margin: 40px 0px 0px 0px;
+  padding: 15px 0px;
+border-top: 1px solid rgb(0 0 0 / 13%);
 }
 
 /* Responsive layout - makes a one column-layout instead of two-column layout */

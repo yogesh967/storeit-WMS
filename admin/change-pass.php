@@ -8,8 +8,8 @@ header('location:../index.php');
 }
 else {
   if(isset($_POST['update-btn'])) {
-    $current = $_POST['current-pass'];
-    $new_pass = $_POST['confirm-new-pass'];
+    $current = mysqli_real_escape_string($conn,trim($_POST['current-pass']));
+    $new_pass = mysqli_real_escape_string($conn,trim($_POST['confirm-new-pass']));
     $user = $_SESSION['alogin'];
     $success="";
     $error="";
@@ -70,7 +70,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Change Admin Password</h1>
+					 <h2 class="pg-heading">Change Admin Password</h2>
 				 </div>
 			 </div>
 			 <!-- popup message -->
@@ -105,7 +105,6 @@ else {
        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="update_pass" method="post" enctype="multipart/form-data">
          <div class="form-row mb-2">
            <div class="form-group col-md-6">
-             <?php echo $row ["password"]; ?>
              <label for="current-pass">Current Password<span class="star"> *</span></label>
              <input type="password" class="form-control" name="current-pass" id="current-pass" placeholder="Enter Current Password" required />
            </div>

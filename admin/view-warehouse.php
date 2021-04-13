@@ -26,18 +26,18 @@ else {
 // Update user
 	if (isset($_POST['update-btn'])) {
 	$id = $_POST['id'];
-	$name = $_POST['Inputname'];
-	$password = $_POST['Inputpass'];
-	$email = $_POST['Inputemail'];
-	$contact = $_POST['Inputcontact'];
-	$address = $_POST['Inputaddress'];
-	$state = $_POST['Inputstate'];
-	$city = $_POST['Inputcity'];
+	$name = mysqli_real_escape_string($conn,trim($_POST['Inputname']));
+	$password = mysqli_real_escape_string($conn,trim($_POST['Inputpass']));
+	$email = mysqli_real_escape_string($conn,trim($_POST['Inputemail']));
+	$contact = mysqli_real_escape_string($conn,trim($_POST['Inputcontact']));
+	$address = mysqli_real_escape_string($conn,trim($_POST['Inputaddress']));
+	$state = mysqli_real_escape_string($conn,trim($_POST['Inputstate']));
+	$city = mysqli_real_escape_string($conn,trim($_POST['Inputcity']));
 	$zip = $_POST['Inputzip'];
 
 	$update_query = mysqli_query($conn, "UPDATE warehouse SET name='$name', email='$email', password='$password', contact='$contact', address='$address', state='$state', city='$city', zip='$zip' WHERE id=$id");
 	if ($update_query) {
-		$success = "User Deleted";
+		$success = "User Details Updated";
 		header("Location:view-warehouse.php?success=".$success);
 	}
 	else {
@@ -91,7 +91,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h1 class="pg-heading">Warehouses</h1>
+					 <h2 class="pg-heading">Warehouses</h2>
 				 </div>
 			 </div>
 			 <!-- popup message -->
@@ -122,7 +122,6 @@ else {
 					 </button>
 				 </div>
 			 <?php } ?>
-			 <div class="table-responsive">
 				<table id="warehouse-list" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -163,7 +162,7 @@ else {
 
 			                        <!-- Modal Header -->
 			                        <div class="modal-header">
-			                          <h5 class="modal-title">Details</h5>
+			                          <h5 class="modal-title">Update</h5>
 			                          <button type="button" class="close" data-dismiss="modal">&times;</button>
 			                        </div>
 
@@ -238,7 +237,6 @@ else {
 					<th>Action</th>
 				</tfoot>
     		</table>
-			 </div>
    </div>
 	</div>
 </div>

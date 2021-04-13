@@ -41,6 +41,11 @@ body {
   font-size: 14px !important;
 }
 
+.btn {
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 14px !important;
+}
+
 .input-group-text {
   font-size: 14px !important;
 }
