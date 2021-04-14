@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 include('../include/connection.php');
-if(strlen($_SESSION['wid'] AND $_SESSION['wname']) == 0)	{
+if(strlen($_SESSION['sid'] AND $_SESSION['sname']) == 0)	{
 header('location:../index.php');
 }
 else{
@@ -13,7 +13,7 @@ else{
   <head>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Warehouse Dashboard | StoreIt Warehouse Management System</title>
+    <title>Seller Dashboard | StoreIt Warehouse Management System</title>
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />

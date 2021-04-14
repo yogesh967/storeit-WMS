@@ -10,15 +10,47 @@ else {
   $wid = $_SESSION['wid'];
    // Add product
   if(isset($_POST['submit-btn'])) {
-    $inputEmail = mysqli_real_escape_string($conn,trim($_POST['w_name']));
-    $contact = mysqli_real_escape_string($conn,trim($_POST['pro_name']));
-    $confirmpass = mysqli_real_escape_string($conn,trim($_POST['pro_catg']));
-    $inputaddress = $_POST['quantity'];
-    $state = mysqli_real_escape_string($conn,trim($_POST['p_disc']));
+    $w_name = mysqli_real_escape_string($conn,trim($_POST['w_name']));
+    $pro_name = mysqli_real_escape_string($conn,trim($_POST['pro_name']));
+    $pro_catg = mysqli_real_escape_string($conn,trim($_POST['pro_catg']));
+    $quantity = $_POST['quantity'];
+    $price = $_POST['price'];
+    $pdisc = mysqli_real_escape_string($conn,trim($_POST['p_disc']));
     $fileName = basename($_FILES["UploadImage"]["name"]);
     $success="";
     $error="";
-}
+
+    $query = "SELECT * FROM products WHERE wid='$wid'";
+    $fire_query =  mysqli_query($conn,$query);
+    $row = mysqli_fetch_array($fire_query);
+    $check_pro= $row ["pname"];
+    if ($check_pro == $pro_name) {
+      $error = "Product already exist. Please go to VIEW PRODUCT and make changes you want.";
+      header("Location:add-product.php?error=".$error);
+    }
+
+    else {
+      // Upload file
+      $pname = rand(1000,10000)."-".$fileName;
+      #temporary file name to store file
+      $tname = $_FILES["UploadImage"]["tmp_name"];
+      #upload directory path
+      $uploads_dir = 'C:/xampp/htdocs/storeit-WMS/warehouse/img';
+      #TO move the uploaded file to specific location
+      move_uploaded_file($tname, $uploads_dir.'/'.$pname);
+      $add_pro = "INSERT INTO products(wid, wname, pname, pcategory, quantity, price_pq, pdescription, image, status)
+      VALUES('$wid', '$w_name', '$pro_name', '$pro_catg', '$quantity', '$pdisc', '$pname', '1')";
+      $fire_addpro = mysqli_query($conn, $add_pro);
+      if ($fire_addpro) {
+        $success = "Product added Successfully";
+        header("Location:add-product.php?success=".$success);
+      }
+      else {
+        $error = "ERROR!";
+        header("Location:add-product.php?error=".$error);
+      }
+    }
+  }
 
   // Product Category
   $pro_cat = "SELECT * FROM product_cat WHERE w_id = '$wid'";
@@ -27,19 +59,26 @@ else {
   while ($row1 = mysqli_fetch_array($fire_pcat)) {
     $options = $options."<option>$row1[2]</option>";
   }
+
+  // Product Name
+  $pro_name = "SELECT * FROM pro_name WHERE w_id = '$wid'";
+  $fire_pname = mysqli_query($conn, $pro_name);
+  $options2 = "";
+  while ($row2 = mysqli_fetch_array($fire_pname)) {
+    $options2 = $options2."<option>$row2[2]</option>";
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Warehouse | StoreIt Warehouse Management System</title>
+    <title>Add Product | StoreIt Warehouse Management System</title>
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/bootstrap.min.css.map" />
-		<!-- custom style -->
-		<link rel="stylesheet" href="../admin/css/adminstyle.css">
 		<!--Jquery-->
 		<script src="../js/jquery.js"></script>
 		<!--bootstrap  icon-->
@@ -47,6 +86,8 @@ else {
 		<!--Open sans font-->
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- custom style -->
+    <link rel="stylesheet" href="../admin/css/adminstyle.css">
 	</head>
 
   <body>
@@ -104,15 +145,23 @@ else {
          <div class="form-row">
            <div class="form-group col-md-6">
              <label for="pro_name">Product Name<span class="star"> *</span></label>
-             <input type="text" class="form-control" name="pro_name" id="pro_name" placeholder="Enter Product Name" required />
+             <select id="pro_name" name="pro_name" class="form-control" required>
+               <?php echo $options2; ?>
+             </select>
            </div>
          </div>
          <div class="form-row">
            <div class="form-group col-md-6">
              <label for="pro_catg">Product Category<span class="star"> *</span></label>
-             <select id="pro_catg" name="pro_catg" class="form-control">
+             <select id="pro_catg" name="pro_catg" class="form-control" required>
                <?php echo $options; ?>
              </select>
+           </div>
+         </div>
+         <div class="form-row">
+           <div class="form-group col-md-6">
+             <label for="price">Price Per Quantity<span class="star"> *</span></label>
+             <input type="number" class="form-control" name="price" id="price" min="1" required />
            </div>
          </div>
          <div class="form-row">
@@ -127,10 +176,12 @@ else {
              <input type="text" class="form-control" name="p_disc" id="p_disc" />
            </div>
          </div>
-         <div class="form-group col-md-6">
-           <label for="UploadImage">Product Image</label>
-           <input type="file" class="form-control" name="UploadImage" id="UploadImage" onchange="return fileValidation()" required />
-         </div>
+         <div class="form-row">
+           <div class="form-group col-md-6">
+             <label for="UploadImage">Product Image<span class="star"> *</span></label>
+             <input type="file" class="form-control" name="UploadImage" id="UploadImage" onchange="return fileValidation()" required />
+           </div>
+       </div>
          <button type="submit" name="submit-btn" class="btn btn-primary mt-4">Submit</button>
        </form>
      </div>

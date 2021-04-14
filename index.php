@@ -14,7 +14,7 @@ if(isset($_POST['login-btn'])) {
   $warehouse = "SELECT * FROM warehouse WHERE email='$email' AND password='$password' AND status='1'";
   $fire_warehouse =  mysqli_query($conn,$warehouse);
 
-  $seller = "SELECT * FROM warehouse WHERE email='$email' AND password='$password' AND status='1'";
+  $seller = "SELECT * FROM seller WHERE email='$email' AND password='$password' AND status='1'";
   $fire_seller =  mysqli_query($conn,$seller);
 
   $fetch_warehouse = mysqli_fetch_array($fire_warehouse);
@@ -52,8 +52,8 @@ if(isset($_POST['login-btn'])) {
   elseif ($user == 'Seller') {
     if (mysqli_num_rows($fire_seller) == 1) {
       session_start();
-      $_SESSION['sid'] = $fetch['id'];
-      $_SESSION['sname'] = $fetch['name'];
+      $_SESSION['sid'] = $fetch_seller['id'];
+      $_SESSION['sname'] = $fetch_seller['name'];
       header("location:seller/dashboard.php");
     }
 
@@ -180,8 +180,6 @@ elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
       <!--bootstrap core-->
       <link rel="stylesheet" href="css/bootstrap.min.css" />
       <link rel="stylesheet" href="css/bootstrap.min.css.map" />
-      <!-- custom style -->
-      <link rel="stylesheet" href="css/style.css" />
       <!--Jquery-->
       <script src="js/jquery.js"></script>
       <!-- state city -->
@@ -191,6 +189,8 @@ elseif ($choose_user=='Seller' && $s_email_valid && $s_contact_valid) {
       <!--Open sans font-->
   		<link rel="preconnect" href="https://fonts.gstatic.com">
   		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+      <!-- custom style -->
+      <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
       <div class="container">

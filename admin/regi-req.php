@@ -54,8 +54,6 @@ else {
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/bootstrap.min.css.map" />
-		<!-- custom style -->
-		<link rel="stylesheet" href="css/adminstyle.css">
 		<!--Jquery-->
 		<script src="../js/jquery.js"></script>
 		<!--bootstrap  icon-->
@@ -66,6 +64,8 @@ else {
 		<!-- data table -->
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"/>
+		<!-- custom style -->
+		<link rel="stylesheet" href="css/adminstyle.css">
 	</head>
 
   <body>

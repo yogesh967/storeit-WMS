@@ -81,8 +81,6 @@ else {
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 		<link rel="stylesheet" href="../css/bootstrap.min.css.map" />
-		<!-- custom style -->
-		<link rel="stylesheet" href="css/adminstyle.css">
 		<!--Jquery-->
 		<script src="../js/jquery.js"></script>
 		<!-- state city -->
@@ -92,6 +90,8 @@ else {
 		<!--Open sans font-->
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- custom style -->
+		<link rel="stylesheet" href="css/adminstyle.css">
 	</head>
 
   <body>
