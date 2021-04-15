@@ -39,7 +39,7 @@ else {
       #TO move the uploaded file to specific location
       move_uploaded_file($tname, $uploads_dir.'/'.$pname);
       $add_pro = "INSERT INTO products(wid, wname, pname, pcategory, quantity, price_pq, pdescription, image, status)
-      VALUES('$wid', '$w_name', '$pro_name', '$pro_catg', '$quantity', '$pdisc', '$pname', '1')";
+      VALUES('$wid', '$w_name', '$pro_name', '$pro_catg', '$quantity', '$price', '$pdisc', '$pname', '1')";
       $fire_addpro = mysqli_query($conn, $add_pro);
       if ($fire_addpro) {
         $success = "Product added Successfully";

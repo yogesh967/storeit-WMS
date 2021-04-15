@@ -59,7 +59,7 @@ else{
         			<p class="card-text">WAREHOUSES</p>
       			</div>
 						<div class="card-footer">
-    					<a href="#">Full Details</a>
+    					<a href="view-warehouse.php">Full Details</a>
   					</div>
     			</div>
   			</div>
@@ -77,43 +77,7 @@ else{
         			<p class="card-text">SELLERS</p>
       			</div>
 						<div class="card-footer">
-    					<a href="#">Full Details</a>
-  					</div>
-    			</div>
-  			</div>
-				<div class="col-md-3">
-    			<div class="card">
-      			<div class="card-body">
-							<?php
-							$warehouse_count = "SELECT id FROM warehouse WHERE status='1'";
-							$fire_Wcount = mysqli_query($conn, $warehouse_count);
-							$result_wc = mysqli_num_rows($fire_Wcount);
-							?>
-							<h1 class="card-title">
-								<?php echo htmlentities($result_wc);?>
-							</h1>
-        			<p class="card-text">WAREHOUSES</p>
-      			</div>
-						<div class="card-footer">
-    					<a href="#">Full Details</a>
-  					</div>
-    			</div>
-  			</div>
-				<div class="col-md-3">
-    			<div class="card">
-      			<div class="card-body">
-							<?php
-							$warehouse_count = "SELECT id FROM warehouse WHERE status='1'";
-							$fire_Wcount = mysqli_query($conn, $warehouse_count);
-							$result_wc = mysqli_num_rows($fire_Wcount);
-							?>
-							<h1 class="card-title">
-								<?php echo htmlentities($result_wc);?>
-							</h1>
-        			<p class="card-text">WAREHOUSES</p>
-      			</div>
-						<div class="card-footer">
-    					<a href="#">Full Details</a>
+    					<a href="view-seller.php">Full Details</a>
   					</div>
     			</div>
   			</div>

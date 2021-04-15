@@ -3,38 +3,14 @@ include("../include/connection.php");
 session_start();
 error_reporting(0);
 
-if(strlen($_SESSION['sid'] AND $_SESSION['sname']) == 0) {
+if(strlen($_SESSION['wid'] AND $_SESSION['wname']) == 0) {
 header('location:../index.php');
 }
 else {
-  $s_id = $_SESSION['sid'];
-  // Order
-  if(isset($_POST['order-btn'])) {
-    $pid = $_POST['pid'];
-    $wid = $_POST['wid'];
-    $order_pname = mysqli_real_escape_string($conn,trim($_POST['order_pname']));
-    $order_pcat = mysqli_real_escape_string($conn,trim($_POST['order_pcat']));
-    $order_quant = mysqli_real_escape_string($conn,trim($_POST['order_quant']));
-    $order_tcost = mysqli_real_escape_string($conn,trim($_POST['order_tcost']));
-    $p_img = mysqli_real_escape_string($conn,trim($_POST['p_img']));
-    $success="";
-    $error="";
-
-    $query_order = "INSERT INTO seller_order(sid, pid, wid, p_name, p_category, quantity, total_price, p_img, status)
-    VALUES('$s_id', '$pid', '$wid', '$order_pname', '$order_pcat', '$order_quant', '$order_tcost', '$p_img', '0')";
-    $fire_order = mysqli_query($conn,$query_order);
-      if ($fire_order) {
-        $success = "Order request send Successfully";
-        header("Location:give-order.php?success=".$success);
-      }
-      else {
-        $error = "ERROR!";
-        header("Location:give-order.php?error=".$error);
-      }
-    }
+  $w_id = $_SESSION['wid'];
 
   // display details
-  	$sql = "SELECT * FROM products";
+  	$sql = "SELECT * FROM seller_order WHERE status='1' OR status='2' AND wid='$w_id'";
   	$result = $conn->query($sql);
   	$arr_users = [];
   	$count = 1;
@@ -47,7 +23,7 @@ else {
   <head>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Give Order | StoreIt Warehouse Management System</title>
+    <title>View Orders Satatus | StoreIt Warehouse Management System</title>
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -76,84 +52,54 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h2 class="pg-heading">Give Order</h2>
+					 <h2 class="pg-heading">View Order Status</h2>
 				 </div>
 			 </div>
-			 <!-- popup message -->
-       <!-- Error msg -->
-			 <?php
-			 if(isset($_GET['error']) && $_GET['error'] !='')
-			 {?>
-				 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-					 <?php
-						 echo $_GET['error'];
-						 unset($_GET['error']);
-					 ?>
-					 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						 <span aria-hidden="true">&times;</span>
-					 </button>
-				 </div>
-			 <?php } ?>
-       <!-- Success msg -->
-			 <?php
-			 if(isset($_GET['success']) && $_GET['success'] !='')
-			 {?>
-				 <div class="alert alert-success alert-dismissible fade show" role="alert">
-					 <?php
-						 echo $_GET['success'];
-						 unset($_GET['success']);
-					 ?>
-					 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						 <span aria-hidden="true">&times;</span>
-					 </button>
-				 </div>
-			 <?php } ?>
+
        <div class="row">
          <div class="col-md-12">
     				<table id="order-list" class="table table-striped table-bordered table-hover" style="width:100%">
             <thead>
                 <tr>
     							<th>#</th>
-                  <th>Warehouse Name</th>
                   <th>Product Name</th>
                   <th>Product Category</th>
                   <th>Quantity</th>
-                  <th>Price Per Quantity</th>
-                  <th>Product Description</th>
+                  <th>Total Cost</th>
+                  <th>date</th>
                   <th>image</th>
-                  <th>Warehouse Details</th>
-    							<th>Action</th>
+                  <th>Seller Details</th>
+                  <th>Status</th>
                 </tr>
             </thead>
     				<tbody>
     					<?php if(!empty($arr_users)) { ?>
                     <?php foreach($arr_users as $user) {
-                      $w_id = $user['wid'];
+                      $s_id = $user['sid'];
                     ?>
     					<tr>
     						<td><?php echo $count; ?></td>
-    						<td><?php echo $user['wname']; ?></td>
-    						<td><?php echo $user['pname']; ?></td>
-                <td><?php echo $user['pcategory']; ?></td>
+    						<td><?php echo $user['p_name']; ?></td>
+                <td><?php echo $user['p_category']; ?></td>
                 <td><?php echo $user['quantity']; ?></td>
-                <td><?php echo $user['price_pq']; ?></td>
-                <td><?php echo $user['pdescription']; ?></td>
+                <td><?php echo $user['total_price']; ?></td>
+                <td><?php echo $user['date']; ?></td>
                 <td><?php
-                $get_img = $user['image'];
-                $img = "../warehouse/img/$get_img";
+                $get_img = $user['p_img'];
+                $img = "img/$get_img";
                 ?>
                 <img src="<?php echo $img; ?>" width="50px">
                 </td>
                 <td>
                   <button name="view_btn" class="btn btn-link" data-toggle="modal" data-target="#myModal1<?php echo $user['pid']; ?>">
-    			          View Warehouse Details
+    			          Seller Details
     			        </button>
                   <!-- View Details modal -->
                   <div class="modal fade " id="myModal1<?php echo $user['pid']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <?php
-                        $query3 = "SELECT * FROM warehouse WHERE id='$w_id'";
+                        $query3 = "SELECT * FROM seller WHERE id='$s_id'";
                         $fire_query3 =  mysqli_query($conn,$query3);
                         $row3 = mysqli_fetch_array($fire_query3);
 
@@ -228,90 +174,30 @@ else {
                       </div>
                     </div>
                   </div>
-
                 </td>
 
-    						<td>
-    							<button name="edit_btn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal2<?php echo $user['pid']; ?>">
-    			          Order
-    			        </button>
-                  <!--Order Modal -->
-    							<div class="modal fade " id="myModal2<?php echo $user['pid']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                          <h5 class="modal-title">Order</h5>
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-
-                        <!-- Modal body -->
-                        <div class="modal-body" style="text-align:left;">
-													<form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="order" method="post" enctype="multipart/form-data">
-                            <div class="form-row">
-                              <div class="form-group col-md-12">
-                                <input type="hidden" name="pid" value="<?php echo $user['pid']; ?>" />
-                                <input type="hidden" name="wid" value="<?php echo $user['wid']; ?>" />
-                                <input type="hidden" name="p_img" value="<?php echo $user['image']; ?>" />
-
-                                <label for="order_pname">Product Name</label>
-                                <input type="text" class="form-control" name="order_pname" id="order_pname" value="<?php echo $user['pname']; ?>" readonly />
-                              </div>
-                            </div>
-
-                            <div class="form-row">
-                              <div class="form-group col-md-12">
-                                <label for="order_pcat">Product Category</label>
-                                <input type="text" class="form-control order_pcat" name="order_pcat" value="<?php echo $user['pcategory']; ?>" readonly />
-                              </div>
-                            </div>
-
-                            <div class="form-row">
-                              <div class="form-group col-md-12">
-                                <label for="order_ppq">Price Per Quantity</label>
-                                <input type="text" class="form-control" name="order_ppq" id="order_ppq" value="<?php echo $user['price_pq']; ?>" readonly />
-                              </div>
-                            </div>
-
-                            <div class="form-row">
-                              <div class="form-group col-md-12">
-                                <label for="order_quant">Quantity<span class="star"> *</span></label>
-                                <input type="number" class="form-control" name="order_quant" id="order_quant" required />
-                              </div>
-                            </div>
-
-                            <div class="form-row">
-                              <div class="form-group col-md-12">
-                                <label for="order_tcost">Total Cost</label>
-                                <input type="text" class="form-control" name="order_tcost" id="order_tcost" required />
-                              </div>
-                            </div>
-					                  <button type="submit" name="order-btn" class="btn btn-primary mt-2">Order</button>
-					                </form>
-                        </div>
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-    						</td>
+                <td>
+                  <?php if($user['status']=='1') {
+												?>
+												<label class="text-success">ACCEPTED</label>
+											<?php }
+											else if($user['status']=='2') {
+											?>
+											<label class="text-danger">DENIED</label>
+										<?php } ?>
     					</tr>
     					<?php $count=$count+1; }} ?>
     				</tbody>
     				<tfoot>
               <th>#</th>
-              <th>Warehouse Name</th>
               <th>Product Name</th>
               <th>Product Category</th>
               <th>Quantity</th>
-              <th>Price Per Quantity</th>
-              <th>Product Description</th>
+              <th>Total Cost</th>
+              <th>date</th>
               <th>image</th>
-              <th>Warehouse Details</th>
-              <th>Action</th>
+              <th>Seller Details</th>
+              <th>Status</th>
     				</tfoot>
         		</table>
        </div>

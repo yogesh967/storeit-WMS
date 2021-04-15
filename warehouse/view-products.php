@@ -150,6 +150,7 @@ else {
                   <th>Product Name</th>
                   <th>Product category</th>
                   <th>Quantity</th>
+                  <th>Price Per Quantity</th>
                   <th>Product Description</th>
                   <th>Image</th>
     							<th>Action</th>
@@ -163,18 +164,19 @@ else {
     						<td><?php echo $user['pname']; ?></td>
     						<td><?php echo $user['pcategory']; ?></td>
                 <td><?php echo $user['quantity']; ?></td>
+                <td><?php echo $user['price_pq']; ?></td>
                 <td><?php echo $user['pdescription']; ?></td>
                 <td>
                   <?php
                   $get_img = $user['image'];
                 	$img = "img/$get_img";
                   ?>
-                  <img src="<?php echo $img; ?>" width="150px">
+                  <img src="<?php echo $img; ?>" width="100px">
                 </td>
 
     						<td>
     							<button name="increase_btn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal1<?php echo $user['pid']; ?>">
-    			          increase Quantity
+    			          Increase Quantity
     			        </button><br>
                   <button name="decrease_btn" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal2<?php echo $user['pid']; ?>">
     			          Decrease Quantity
@@ -267,6 +269,7 @@ else {
               <th>Product Name</th>
               <th>Prod category</th>
               <th>Quantity</th>
+              <th>Price Per Quantity</th>
               <th>PRod Description</th>
               <th>Image</th>
               <th>Action</th>

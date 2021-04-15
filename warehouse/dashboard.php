@@ -6,6 +6,7 @@ if(strlen($_SESSION['wid'] AND $_SESSION['wname']) == 0)	{
 header('location:../index.php');
 }
 else{
+  $wid = $_SESSION['wid'];
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +60,7 @@ else{
         			<p class="card-text">WAREHOUSES</p>
       			</div>
 						<div class="card-footer">
-    					<a href="#">Full Details</a>
+    					<a href="view-warehouse.php">Full Details</a>
   					</div>
     			</div>
   			</div>
@@ -77,7 +78,7 @@ else{
         			<p class="card-text">SELLERS</p>
       			</div>
 						<div class="card-footer">
-    					<a href="#">Full Details</a>
+    					<a href="view-seller.php">Full Details</a>
   					</div>
     			</div>
   			</div>
@@ -85,17 +86,17 @@ else{
     			<div class="card">
       			<div class="card-body">
 							<?php
-							$warehouse_count = "SELECT id FROM warehouse WHERE status='1'";
+							$warehouse_count = "SELECT id FROM seller_order WHERE wid='$wid' AND status='0'";
 							$fire_Wcount = mysqli_query($conn, $warehouse_count);
 							$result_wc = mysqli_num_rows($fire_Wcount);
 							?>
 							<h1 class="card-title">
 								<?php echo htmlentities($result_wc);?>
 							</h1>
-        			<p class="card-text">WAREHOUSES</p>
+        			<p class="card-text">ORDERS</p>
       			</div>
 						<div class="card-footer">
-    					<a href="#">Full Details</a>
+    					<a href="view-order.php">Full Details</a>
   					</div>
     			</div>
   			</div>
@@ -103,17 +104,17 @@ else{
     			<div class="card">
       			<div class="card-body">
 							<?php
-							$warehouse_count = "SELECT id FROM warehouse WHERE status='1'";
+							$warehouse_count = "SELECT pid FROM products WHERE wid='$wid'";
 							$fire_Wcount = mysqli_query($conn, $warehouse_count);
 							$result_wc = mysqli_num_rows($fire_Wcount);
 							?>
 							<h1 class="card-title">
 								<?php echo htmlentities($result_wc);?>
 							</h1>
-        			<p class="card-text">WAREHOUSES</p>
+        			<p class="card-text">PRODUCTS</p>
       			</div>
 						<div class="card-footer">
-    					<a href="#">Full Details</a>
+    					<a href="view-products.php">Full Details</a>
   					</div>
     			</div>
   			</div>
