@@ -3,6 +3,7 @@
   <div class="sidebar-heading"><b>Menu</b></div>
   <div class="list-group list-group-flush">
     <a href="dashboard.php" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+    <a href="update-profile.php" class="list-group-item list-group-item-action bg-light">Update Profile</a>
     <a href="view-products.php" class="list-group-item list-group-item-action bg-light">View Products</a>
     <a href="view-seller.php" class="list-group-item list-group-item-action bg-light">View Sellers</a>
     <a href="view-warehouse.php" class="list-group-item list-group-item-action bg-light">View Warehouses</a>

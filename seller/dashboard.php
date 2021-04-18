@@ -45,7 +45,7 @@ else{
 			 </div>
 
 			<div class="row dash-card">
-  		 	<div class="col-md-3">
+  		 	<div class="col-md-4">
     			<div class="card">
       			<div class="card-body">
 							<?php
@@ -63,7 +63,7 @@ else{
   					</div>
     			</div>
   			</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
     			<div class="card">
       			<div class="card-body">
 							<?php

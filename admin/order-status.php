@@ -3,14 +3,27 @@ include("../include/connection.php");
 session_start();
 error_reporting(0);
 
-if(strlen($_SESSION['sid'] AND $_SESSION['sname']) == 0) {
+if(strlen($_SESSION['alogin'] AND $_SESSION['aname']) == 0) {
 header('location:../index.php');
 }
 else {
-  $s_id = $_SESSION['sid'];
+
+  // Delete order
+	if (isset($_GET['del'])) {
+	$id = $_GET['del'];
+	$del_query = mysqli_query($conn, "DELETE FROM seller_order WHERE id=$id");
+	if ($del_query) {
+		$success = "Order Deleted";
+		header("Location:order-status.php?success=".$success);
+	}
+	else {
+		$error = "ERROR!";
+		header("Location:order-status.php?error=".$error);
+	 }
+ }
 
   // display details
-  	$sql = "SELECT * FROM seller_order WHERE sid='$s_id'";
+  	$sql = "SELECT * FROM seller_order";
   	$result = $conn->query($sql);
   	$arr_users = [];
   	$count = 1;
@@ -23,7 +36,7 @@ else {
   <head>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>View Orders status | StoreIt Warehouse Management System</title>
+    <title>Seller Orders status | StoreIt Warehouse Management System</title>
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -52,7 +65,7 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h2 class="pg-heading">View Order Status</h2>
+					 <h2 class="pg-heading">Seller Order Status</h2>
 				 </div>
 			 </div>
 
@@ -69,13 +82,17 @@ else {
                   <th>date</th>
                   <th>image</th>
                   <th>Seller Details</th>
+                  <th>Warehouse Details</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
             </thead>
     				<tbody>
     					<?php if(!empty($arr_users)) { ?>
                     <?php foreach($arr_users as $user) {
                       $s_id = $user['sid'];
+                      $w_id = $user['wid'];
+
                     ?>
     					<tr>
     						<td><?php echo $count; ?></td>
@@ -91,18 +108,17 @@ else {
                 <img src="<?php echo $img; ?>" width="50px">
                 </td>
                 <td>
-                  <button name="view_btn" class="btn btn-link" data-toggle="modal" data-target="#myModal1<?php echo $user['pid']; ?>">
+                  <button name="view_btn" class="btn btn-link" data-toggle="modal" data-target="#myModal1<?php echo $user['id']; ?>">
     			          Seller Details
     			        </button>
                   <!-- View Details modal -->
-                  <div class="modal fade " id="myModal1<?php echo $user['pid']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal fade " id="myModal1<?php echo $user['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <?php
                         $query3 = "SELECT * FROM seller WHERE id='$s_id'";
                         $fire_query3 =  mysqli_query($conn,$query3);
                         $row3 = mysqli_fetch_array($fire_query3);
-                        if ($row3) {
                         ?>
                         <!-- Modal Header -->
                         <div class="modal-header">
@@ -167,7 +183,90 @@ else {
                             </tbody>
                           </table>
                         </div>
-                      <?php } ?>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button name="view_btn" class="btn btn-link" data-toggle="modal" data-target="#myModal2<?php echo $user['id']; ?>">
+    			          Warehouse Details
+    			        </button>
+                  <!-- View Warehouse modal -->
+                  <div class="modal fade " id="myModal2<?php echo $user['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <?php
+                        $query1 = "SELECT * FROM warehouse WHERE id='$w_id'";
+                        $fire_query1 =  mysqli_query($conn,$query1);
+                        $row1 = mysqli_fetch_array($fire_query1);
+                        ?>
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                          <h5 class="modal-title">Details</h5>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body" style="text-align:left;">
+                          <table class="table">
+                            <thead>
+                              <th>Title</th>
+                              <th>Details</th>
+                            </thead>
+
+                            <tbody>
+                              <tr>
+                                <td>Name</td>
+                                <td><?php echo $row1["name"]; ?></td>
+                              </tr>
+
+                              <tr>
+                                <td>Email</td>
+                                <td><?php echo $row1["email"]; ?></td>
+                              </tr>
+
+                              <tr>
+                                <td>Contact No</td>
+                                <td><?php echo $row1["contact"]; ?></td>
+                              </tr>
+
+                              <tr>
+                                <td>Address</td>
+                                <td><?php echo $row1["address"]; ?></td>
+                              </tr>
+
+                              <tr>
+                                <td>State</td>
+                                <td><?php echo $row1["state"]; ?></td>
+                              </tr>
+
+                              <tr>
+                                <td>City</td>
+                                <td><?php echo $row1["city"]; ?></td>
+                              </tr>
+
+                              <tr>
+                                <td>Zip</td>
+                                <td><?php echo $row1["zip"]; ?></td>
+                              </tr>
+
+                              <tr>
+                                <td>Image</td>
+                                <td>
+                                <?php
+                                $get_img3 = $row1['image'];
+                                $img3 = "../images/users/$get_img2";
+                                ?>
+                                <img src="<?php echo $img3; ?>" width="50px">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
                           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -193,6 +292,11 @@ else {
 										Pending
 									<?php } ?>
                 </td>
+
+                <td>
+                  <a href="order-status.php?del=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" >Delete</a>
+
+                </td>
     					</tr>
     					<?php $count=$count+1; }} ?>
     				</tbody>
@@ -205,7 +309,9 @@ else {
               <th>date</th>
               <th>image</th>
               <th>Seller Details</th>
+              <th>Warehouse Details</th>
               <th>Status</th>
+              <th>Action</th>
     				</tfoot>
         		</table>
        </div>

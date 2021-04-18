@@ -3,27 +3,39 @@ include("../include/connection.php");
 session_start();
 error_reporting(0);
 
-if(strlen($_SESSION['sid'] AND $_SESSION['sname']) == 0) {
+if(strlen($_SESSION['alogin'] AND $_SESSION['aname']) == 0) {
 header('location:../index.php');
 }
 else {
-  $s_id = $_SESSION['sid'];
+  // Delete product
+	if (isset($_GET['del'])) {
+	$id = $_GET['del'];
+	$del_query = mysqli_query($conn, "DELETE FROM products WHERE id=$id");
+	if ($del_query) {
+		$success = "Order Deleted";
+		header("Location:view_products.php?success=".$success);
+	}
+	else {
+		$error = "ERROR!";
+		header("Location:view_products.php?error=".$error);
+	 }
+ }
 
   // display details
-  	$sql = "SELECT * FROM seller_order WHERE sid='$s_id'";
-  	$result = $conn->query($sql);
-  	$arr_users = [];
-  	$count = 1;
-  	if ($result->num_rows > 0) {
-      $arr_users = $result->fetch_all(MYSQLI_ASSOC);
-  }
+	$sql = "SELECT * FROM products";
+	$result = $conn->query($sql);
+	$arr_users = [];
+	$count = 1;
+	if ($result->num_rows > 0) {
+    $arr_users = $result->fetch_all(MYSQLI_ASSOC);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>View Orders status | StoreIt Warehouse Management System</title>
+    <title>Products | StoreIt Warehouse Management System</title>
 
 		<!--bootstrap core-->
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -52,57 +64,87 @@ else {
 		 <div class="container-fluid">
 			 <div class="row">
 				 <div class="col-md-12 dash-heading">
-					 <h2 class="pg-heading">View Order Status</h2>
+					 <h2 class="pg-heading">Products</h2>
 				 </div>
 			 </div>
-
+			 <!-- popup message -->
+       <!-- Error msg -->
+			 <?php
+			 if(isset($_GET['error']) && $_GET['error'] !='')
+			 {?>
+				 <div class="alert alert-danger alert-dismissible fade show" role="alert">
+					 <?php
+						 echo $_GET['error'];
+						 unset($_GET['error']);
+					 ?>
+					 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						 <span aria-hidden="true">&times;</span>
+					 </button>
+				 </div>
+			 <?php } ?>
+       <!-- Success msg -->
+			 <?php
+			 if(isset($_GET['success']) && $_GET['success'] !='')
+			 {?>
+				 <div class="alert alert-success alert-dismissible fade show" role="alert">
+					 <?php
+						 echo $_GET['success'];
+						 unset($_GET['success']);
+					 ?>
+					 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						 <span aria-hidden="true">&times;</span>
+					 </button>
+				 </div>
+			 <?php } ?>
        <div class="row">
          <div class="col-md-12">
     				<table id="order-list" class="table table-striped table-bordered table-hover" style="width:100%">
             <thead>
                 <tr>
     							<th>#</th>
+                  <th>Warehouse Name</th>
                   <th>Product Name</th>
                   <th>Product Category</th>
                   <th>Quantity</th>
-                  <th>Total Cost</th>
-                  <th>date</th>
+                  <th>Price Per Quantity</th>
+                  <th>Product Description</th>
                   <th>image</th>
-                  <th>Seller Details</th>
-                  <th>Status</th>
+                  <th>Warehouse Details</th>
+    							<th>Action</th>
                 </tr>
             </thead>
     				<tbody>
     					<?php if(!empty($arr_users)) { ?>
                     <?php foreach($arr_users as $user) {
-                      $s_id = $user['sid'];
+                      $w_id = $user['wid'];
                     ?>
     					<tr>
     						<td><?php echo $count; ?></td>
-    						<td><?php echo $user['p_name']; ?></td>
-                <td><?php echo $user['p_category']; ?></td>
+    						<td><?php echo $user['wname']; ?></td>
+    						<td><?php echo $user['pname']; ?></td>
+                <td><?php echo $user['pcategory']; ?></td>
                 <td><?php echo $user['quantity']; ?></td>
-                <td><?php echo $user['total_price']; ?></td>
-                <td><?php echo $user['date']; ?></td>
+                <td><?php echo $user['price_pq']; ?></td>
+                <td><?php echo $user['pdescription']; ?></td>
                 <td><?php
-                $get_img = $user['p_img'];
+                $get_img = $user['image'];
                 $img = "../warehouse/img/$get_img";
                 ?>
                 <img src="<?php echo $img; ?>" width="50px">
                 </td>
                 <td>
                   <button name="view_btn" class="btn btn-link" data-toggle="modal" data-target="#myModal1<?php echo $user['pid']; ?>">
-    			          Seller Details
+    			          View Warehouse Details
     			        </button>
                   <!-- View Details modal -->
                   <div class="modal fade " id="myModal1<?php echo $user['pid']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <?php
-                        $query3 = "SELECT * FROM seller WHERE id='$s_id'";
+                        $query3 = "SELECT * FROM warehouse WHERE id='$w_id'";
                         $fire_query3 =  mysqli_query($conn,$query3);
                         $row3 = mysqli_fetch_array($fire_query3);
-                        if ($row3) {
+
                         ?>
                         <!-- Modal Header -->
                         <div class="modal-header">
@@ -167,7 +209,6 @@ else {
                             </tbody>
                           </table>
                         </div>
-                      <?php } ?>
                         <!-- Modal footer -->
                         <div class="modal-footer">
                           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -176,36 +217,24 @@ else {
                     </div>
                   </div>
                 </td>
-                <td>
-                  <?php if($user['status']!='0')
-											{ if($user['status']!='1') {
-												?>
-												<label class="text-danger">DENIED</label>
-											<?php }
-											else {
-											?>
-											<label class="text-success">ACCEPTED</label>
-										<?php }
-											}
 
-										else {
-										?>
-										Pending
-									<?php } ?>
-                </td>
+    						<td>
+    							<a href="view-products.php?del=<?php echo $user['pid']; ?>" class="btn btn-danger btn-sm" >Delete</a>
+    						</td>
     					</tr>
     					<?php $count=$count+1; }} ?>
     				</tbody>
     				<tfoot>
               <th>#</th>
+              <th>Warehouse Name</th>
               <th>Product Name</th>
               <th>Product Category</th>
               <th>Quantity</th>
-              <th>Total Cost</th>
-              <th>date</th>
+              <th>Price Per Quantity</th>
+              <th>Product Description</th>
               <th>image</th>
-              <th>Seller Details</th>
-              <th>Status</th>
+              <th>Warehouse Details</th>
+              <th>Action</th>
     				</tfoot>
         		</table>
        </div>

@@ -267,10 +267,10 @@ else {
     				<tfoot>
               <th>#</th>
               <th>Product Name</th>
-              <th>Prod category</th>
+              <th>Product category</th>
               <th>Quantity</th>
               <th>Price Per Quantity</th>
-              <th>PRod Description</th>
+              <th>Product Description</th>
               <th>Image</th>
               <th>Action</th>
     				</tfoot>
